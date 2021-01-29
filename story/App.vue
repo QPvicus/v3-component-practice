@@ -1,20 +1,25 @@
 <template>
   <div class="app-home">
     <div class="app-head">
-      <div style="margin-left:20px;font-size:16px;color:rgba(32,175,255)">
+      <div
+        style="margin-left:20px;font-size:16px;color:rgba(32,175,255);cursor:pointer"
+        @click="goHome"
+      >
         UI 组件库
       </div>
     </div>
     <div class="app-body">
       <div class="app-body-wrapper" style="padding-left:300px">
         <div class="app-menu">
-          <h1>左侧菜单栏</h1>
+          <div class="menu-scroll">
+            <app-menu />
+          </div>
         </div>
         <div class="app-content-nav-list-wrapper">
           1. sdafsdfas
         </div>
         <div class="app-content">
-          <app-navigator defaultPath="/normal/button">
+          <app-navigator defaultPath="/">
             <app-navigator-page></app-navigator-page>
           </app-navigator>
         </div>
@@ -24,14 +29,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { AppNavigator } from './components/navigator/app-navigator'
+import { defineComponent, ref, watchEffect } from 'vue'
+import AppNavigator from './components/navigator/app-navigator'
 import AppNavigatorPage from './components/navigator/app-navigator-page'
+import AppMenu from './components/app-menu/app-menu.vue'
 export default defineComponent({
   name: 'App',
   components: {
     AppNavigator,
-    AppNavigatorPage
+    AppNavigatorPage,
+    AppMenu
+  },
+  setup() {
+    const goHome = () => {
+      window.location.hash = '/'
+    }
+    return {
+      goHome
+    }
   }
 })
 </script>
@@ -79,6 +94,15 @@ $menuSize: 300px;
     bottom: 24px;
     width: $menuSize;
     box-sizing: border-box;
+
+    .menu-scroll {
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
   }
 
   .app-content-nav-list-wrapper {

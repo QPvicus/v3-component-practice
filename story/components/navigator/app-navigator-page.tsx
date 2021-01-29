@@ -1,5 +1,5 @@
 import { DefineComponent, defineComponent, markRaw, reactive, watch } from 'vue'
-import { injectAppNavigator } from './app-navigator'
+import { injectAppNavigator } from './navigator'
 export default defineComponent({
   name: 'AppNavigatorPage',
   setup() {
@@ -17,7 +17,12 @@ export default defineComponent({
         if (path?.charAt(0) === '/') {
           path = path.slice(1)
         }
-        const Component = (await import(`story/pages/${path}`)).default
+        let Component
+        if (path === '') {
+          Component = (await import(`story/pages/welcome/welcome.vue`)).default
+        } else {
+          Component = (await import(`story/pages/${path}`)).default
+        }
         state.PageComponent = markRaw(Component)
       }
     }
